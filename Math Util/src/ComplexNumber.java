@@ -17,16 +17,21 @@ public class ComplexNumber {
 		return new ComplexNumber(this.x + b.x, this.y + b.y);
 	}
 	
+	public ComplexNumber minus(ComplexNumber b) {
+		return new ComplexNumber(this.x - b.x, this.y - b.y);
+	}
+	
 	public ComplexNumber multiply(ComplexNumber b) {
 		return new ComplexNumber(this.x * b.x - this.y * b.y, this.x * b.y + this.y * b.x);
+	}
+	
+	public ComplexNumber conjugate() {
+		return new ComplexNumber(this.x, (-1) * this.y);
 	}
 	
 	public double getNorm() {
 		return Math.sqrt(this.x * this.x + this.y * this.y);
 	}
-	
-	//Homework 
-	//implement subtract, conjugate, divide methods
 	
 	//TODO: need some more work, to handle negative y, or x = 0, y = 0 etc.
 	public String toString() {
