@@ -21,8 +21,24 @@ public class Test {
 		double norm = a.getNorm();
 		System.out.println("|a| = " + norm);
 		
-		Matrix m = new Matrix(3, 4);
-		System.out.println(m);
+		System.out.println();
+		
+		Matrix m1 = new Matrix(3, 3);
+		System.out.println(m1);
+		Matrix m2 = new Matrix(3, 3);
+		System.out.println(m2);
+		
+		Matrix m3 = m1.add(m2);
+		System.out.println(m3);
+		
+		Matrix m4 = m1.multiple(m2);
+		System.out.println(m4);
+		
+		Matrix sub = m1.getSubMatrix(1, 1);
+		System.out.println(sub);
+		
+		double det = m1.getDeterminant();
+		System.out.println(det);
 	}
 }
 
