@@ -20,6 +20,9 @@ public class Test {
 		//test norm
 		double norm = a.getNorm();
 		System.out.println("|a| = " + norm);
+		
+		Matrix m = new Matrix(3, 4);
+		System.out.println(m);
 	}
 }
 

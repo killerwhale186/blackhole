@@ -21,9 +21,9 @@ public class Card {
 		return this.suit;
 	}
 	
-	public int compareTo(Card o)
+	public int compareTo(Card c)
 	{
-	     return (rank - o.rank);
+		return (rank - c.rank);
 	}
 	
 	public String toString() {

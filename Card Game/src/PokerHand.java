@@ -12,21 +12,21 @@ public class PokerHand {
 	
 	public PokerHand(List<Card> cards) {
 		this.cards = cards;
-		Collections.sort(cards, new Comparator<Card>(){
-			public int compare(Card o1, Card o2){
-				if (o1.getRank() == o2.getRank())
+		Collections.sort(cards, new Comparator<Card>() {
+			public int compare(Card card1, Card card2) {
+				if (card1.getRank() == card2.getRank())
 					return 0;
-				return o1.getRank() < o2.getRank() ? 1 : -1; //descend
+				return card1.getRank() < card2.getRank() ? 1 : -1; //descend
 			}
 		});
-		identify();
+		identifyHandRank();
 	}
 	
 	public HandRank getHandRank() {
 		return this.handRank;
 	}
 	
-	public void identify() {
+	public void identifyHandRank() {
 		boolean isFlush = isFlush();
 		boolean isStraight = isStraight();
 		
