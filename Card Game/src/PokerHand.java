@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -5,13 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 
-public class PokerHand {
+public class PokerHand implements Comparable<PokerHand> {
 	
 	private List<Card> cards; //five cards
+	private List<Integer> subRank; //this list of values is used to determine rank if two hands have same type
 	private HandRank handRank;
 	
 	public PokerHand(List<Card> cards) {
 		this.cards = cards;
+		this.subRank = new ArrayList<Integer>();
 		Collections.sort(cards, new Comparator<Card>() {
 			public int compare(Card card1, Card card2) {
 				if (card1.getRank() == card2.getRank())
@@ -43,7 +46,9 @@ public class PokerHand {
 			} else if (cnt == 4) {
 				quadruples++;
 			}
+			this.subRank.add((int)(i * Math.pow(10, cnt - 1)));
 		}
+		Collections.sort(this.subRank);
 		
 		if (quadruples == 1) {
 			this.handRank = HandRank.FOUR_OF_A_KIND;
@@ -93,6 +98,7 @@ public class PokerHand {
 		return true;
 	}
 	
+	//count duplicates for each rank, like if there are three 5, two 9, we have 5 -> 3, 9 -> 2
 	private Map<Integer, Integer> groupByRanks() {
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		for (Card card : cards) {
@@ -107,6 +113,21 @@ public class PokerHand {
 	}
 	
 	public String toString() {
-		return cards.toString() + " : " + getHandRank();
+		return cards.toString() + " : " + getHandRank() + " : " + this.subRank;
+	}
+
+	public int compareTo(PokerHand that) {
+		int rankDiff = that.getHandRank().ordinal() - this.getHandRank().ordinal();
+		if (rankDiff != 0) {
+			return rankDiff;
+		} else {
+			for (int i = this.subRank.size() - 1; i >= 0; i--) {
+				int subDiff = this.subRank.get(i) - that.subRank.get(i);
+				if (subDiff != 0) {
+					return subDiff;
+				}
+			}
+		}
+		return 0;
 	}
 }
