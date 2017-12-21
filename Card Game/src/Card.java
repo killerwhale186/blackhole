@@ -23,24 +23,24 @@ public class Card {
 	
 	public int compareTo(Card c)
 	{
-		return (rank - c.rank);
+		return (this.rank - c.rank);
 	}
 	
 	public String toString() {
-		return String.valueOf(suit) + getDisplayStr();
+		return String.valueOf(this.suit) + getDisplayStr();
 	}
 	
 	public String getDisplayStr() {
-		if (rank == 11) {
+		if (this.rank == 11) {
 			return "J";
-		} else if (rank == 12) {
+		} else if (this.rank == 12) {
 			return "Q";
-		} else if (rank == 13) {
+		} else if (this.rank == 13) {
 			return "K";
-		} else if (rank == 14) {
+		} else if (this.rank == 14) {
 			return "A";
 		} else {
-			return String.valueOf(rank);
+			return String.valueOf(this.rank);
 		}
 	}
 }

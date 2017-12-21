@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class PokerHand implements Comparable<PokerHand> {
@@ -11,6 +12,23 @@ public class PokerHand implements Comparable<PokerHand> {
 	private List<Card> cards; //five cards
 	private List<Integer> subRank; //this list of values is used to determine rank if two hands have same type
 	private HandRank handRank;
+	
+	public static PokerHand getBestHand(List<Card> hole, List<Card> tableCards) {
+		PokerHand hand = null;
+		Set<Set<Integer>> subSetIndex = SetUtil.getSubsetIndex(tableCards.size(), 3);
+		for (Set<Integer> subIndex : subSetIndex) {
+			List<Card> temp = new ArrayList<Card>();
+			temp.addAll(hole);
+			for (Integer i : subIndex) {
+				temp.add(tableCards.get(i));
+			}
+			PokerHand tempHand = new PokerHand(temp);
+			if (hand == null || tempHand.compareTo(hand) > 0) {
+				hand = tempHand;
+			}
+		}
+		return hand;
+	}
 	
 	public PokerHand(List<Card> cards) {
 		this.cards = cards;
@@ -81,8 +99,8 @@ public class PokerHand implements Comparable<PokerHand> {
 	
 	private boolean isFlush() {
 		char suit = this.cards.get(0).getSuit();
-		for (int i = 1; i < cards.size(); i++) {
-			if (cards.get(i).getSuit() != suit) {
+		for (int i = 1; i < this.cards.size(); i++) {
+			if (this.cards.get(i).getSuit() != suit) {
 				return false;
 			}
 		}
@@ -90,8 +108,8 @@ public class PokerHand implements Comparable<PokerHand> {
 	}
 
 	private boolean isStraight() {
-		for (int i = 0; i < cards.size() - 1; i++) {
-			if (cards.get(i).getRank() != cards.get(i+1).getRank() + 1) {
+		for (int i = 0; i < this.cards.size() - 1; i++) {
+			if (this.cards.get(i).getRank() != this.cards.get(i+1).getRank() + 1) {
 				return false;
 			}
 		}
@@ -101,7 +119,7 @@ public class PokerHand implements Comparable<PokerHand> {
 	//count duplicates for each rank, like if there are three 5, two 9, we have 5 -> 3, 9 -> 2
 	private Map<Integer, Integer> groupByRanks() {
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-		for (Card card : cards) {
+		for (Card card : this.cards) {
 			int rank = card.getRank();
 			if (map.containsKey(rank)) {
 				map.put(rank, map.get(rank) + 1);
@@ -113,7 +131,7 @@ public class PokerHand implements Comparable<PokerHand> {
 	}
 	
 	public String toString() {
-		return cards.toString() + " : " + getHandRank() + " : " + this.subRank;
+		return this.cards.toString() + " : " + getHandRank() + " : " + this.subRank;
 	}
 
 	public int compareTo(PokerHand that) {

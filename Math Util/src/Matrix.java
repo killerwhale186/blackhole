@@ -11,24 +11,24 @@ public class Matrix {
 		this.columns = columns;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				data[i][j] = (int)(Math.random() * 7);
+				this.data[i][j] = (int)(Math.random() * 7);
 			}
 		}
 	}
 	
 	public double getValue(int row, int column) {
-		return data[row][column];
+		return this.data[row][column];
 	}
 	
 	public void setValue(int row, int column, double val) {
-		data[row][column] = val;
+		this.data[row][column] = val;
 	}
 	
 	//TODO: make sure same row, column
 	public Matrix add(Matrix m) {
 		Matrix newMatrix = new Matrix(this.rows, this.columns);
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
+		for (int i = 0; i < this.rows; i++) {
+			for (int j = 0; j < this.columns; j++) {
 				newMatrix.data[i][j] = this.data[i][j] + m.data[i][j];
 			}
 		}
@@ -38,7 +38,7 @@ public class Matrix {
 	//TODO: make sure this.columns = m.rows
 	public Matrix multiple(Matrix m) {
 		Matrix newMatrix = new Matrix(this.rows, m.columns);
-		for (int i = 0; i < rows; i++) {
+		for (int i = 0; i < this.rows; i++) {
 			for (int j = 0; j < m.columns; j++) {
 				double val = 0;
 				for (int k = 0; k < this.rows; k++) {
@@ -84,11 +84,11 @@ public class Matrix {
 	
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
-		for (int i = 0; i < rows; i++) {
+		for (int i = 0; i < this.rows; i++) {
 			buf.append("(");
-			for (int j = 0; j < columns; j++) {
-				buf.append(data[i][j]);
-				if (j < columns - 1) {
+			for (int j = 0; j < this.columns; j++) {
+				buf.append(this.data[i][j]);
+				if (j < this.columns - 1) {
 					buf.append(" ");
 				}
 			}

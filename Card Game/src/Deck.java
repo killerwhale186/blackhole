@@ -6,7 +6,7 @@ public class Deck {
 	private List<Card> cards;
 	
 	public Deck() {
-		cards = new ArrayList<Card>();
+		this.cards = new ArrayList<Card>();
 		addCards('S');
 		addCards('H');
 		addCards('D');
@@ -18,29 +18,29 @@ public class Deck {
 	}
 	
 	public Card removeRandomCard() {
-		int index = (int) (Math.random() * cards.size());
-		return cards.remove(index);
+		int index = (int) (Math.random() * this.cards.size());
+		return this.cards.remove(index);
 	}
 	
 	private void addCards(char suit) {
 		for (int i = 2; i <= 14; i++) {
-			cards.add(new Card(suit, i));
+			this.cards.add(new Card(suit, i));
 		}
 	}
 	
 	public void shuffle() {
-		int run = 200;
+		int run = 300;
 		while (run > 0) {
-			int index = (int) (Math.random() * cards.size());
-			Card hold = cards.remove(index);
-			cards.add(hold);
+			int index = (int) (Math.random() * this.cards.size());
+			Card hold = this.cards.remove(index);
+			this.cards.add(hold);
 			run--;
 		}
 	}
 	
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
-		for (Card card : cards) {
+		for (Card card : this.cards) {
 			buf.append(card.toString()).append(" ");
 		}
 		return buf.toString();
