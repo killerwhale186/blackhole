@@ -17,8 +17,8 @@ public class ListSetup {
 
 	public static void MakeRandom(int[] list) {
 		for (int j = 0; j < list.length; j++)
-			// times 100, to reduce the chance of getting too many duplicates
-			list[j] = rand.nextInt(list.length * 100);
+			// times 10, to reduce the chance of getting too many duplicates
+			list[j] = rand.nextInt(list.length * 10);
 	}
 
 	public static void MakeReverse(int[] list) {

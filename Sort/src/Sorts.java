@@ -30,7 +30,9 @@ public class Sorts {
 				i--;
 				icount++;
 			}
-
+			if (n > 0) {
+				icount++;
+			}
 			// Insert the saved element after a[i]:
 			list[i] = listTemp;
 
@@ -110,6 +112,7 @@ public class Sorts {
 
 		if (to - from < 2) { // Base case: 1 or 2 elements
 			if (to > from && list[to] < list[from]) {
+				mcount++;
 				int listTemp = list[to]; // swap a[to] and a[from]
 				list[to] = list[from];
 				list[from] = listTemp;
@@ -147,11 +150,11 @@ public class Sorts {
 				i++;
 			} else if (list[j] >= list[p]) {
 				//should increase by 2? 
-				qcount++;
+				qcount += 2;
 				j--;
 			} else {
 				//should increase by 2? 
-				qcount++;
+				qcount += 2;
 				swap(list, i, j);
 				i++;
 				j--;
