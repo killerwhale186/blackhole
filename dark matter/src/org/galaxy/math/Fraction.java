@@ -1,3 +1,6 @@
+package org.galaxy.math;
+
+
 /**
  * This class represents the fractions in math
  */

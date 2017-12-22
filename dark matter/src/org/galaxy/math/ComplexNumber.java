@@ -1,3 +1,5 @@
+package org.galaxy.math;
+
 public class ComplexNumber {
 
 	private double x;

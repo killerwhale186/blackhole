@@ -1,3 +1,5 @@
+package org.galaxy.poker;
+
 /**
  * 
  * This class represents a card
