@@ -1,6 +1,5 @@
 package org.galaxy.math;
 
-
 public class Matrix {
 	
 	private double[][] data;
