@@ -129,6 +129,18 @@ public class Sorts {
 	}
 
 	public static int QuickSort(int[] list, int from, int to) {
+		return QuickSortImpl(list, from, to, "first");
+	}
+	
+	public static int QuickMid(int[] list, int from, int to) {
+		return QuickSortImpl(list, from, to, "mid");
+	}
+
+	public static int QuickRandom(int[] list, int from, int to) {
+		return QuickSortImpl(list, from, to, "random");
+	}
+	
+	public static int QuickSortImpl(int[] list, int from, int to, String pivotOpt) {
 		int qcount = 0;
 
 		if (from >= to) {
@@ -136,10 +148,11 @@ public class Sorts {
 		}
 		// Choose pivot list[p]:
 		int p = from;
-		// The choice of the pivot location may vary:
-		// you can also use p = from or p = to or use
-		// a fancier method, say, the median of the above three.
-
+		if (pivotOpt == "mid") {
+			p = (from + to) / 2;
+		} else if (pivotOpt == "random") {
+			p = (int) Math.random() * (to - from) + from;
+		}
 		// Partition:
 
 		int i = from;
@@ -149,11 +162,11 @@ public class Sorts {
 				qcount++;
 				i++;
 			} else if (list[j] >= list[p]) {
-				//should increase by 2? 
+				//should increase by 2 because if we get here, that means we have performed the comparison in both "if" and "else"
 				qcount += 2;
 				j--;
 			} else {
-				//should increase by 2? 
+				//should increase by 2, same as above reason
 				qcount += 2;
 				swap(list, i, j);
 				i++;
@@ -172,20 +185,10 @@ public class Sorts {
 			p = i;
 		}
 
-		qcount += QuickSort(list, from, p - 1);
-		qcount += QuickSort(list, p + 1, to);
+		qcount += QuickSortImpl(list, from, p - 1, pivotOpt);
+		qcount += QuickSortImpl(list, p + 1, to, pivotOpt);
 
 		return qcount;
-	}
-
-	public static int QuickMid(int[] list) {
-
-		return 0;
-	}
-
-	public static int QuickRandom(int[] list) {
-
-		return 0;
 	}
 
 	private static void swap(int[] list, int a, int b) {

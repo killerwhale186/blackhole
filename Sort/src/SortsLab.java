@@ -5,7 +5,7 @@
 //********************************************************************
 
 public class SortsLab {
-	static final int MAX = 100; // changes the array size
+	static final int MAX = 20; // changes the array size
 
 	public SortsLab() {
 		int[] list = new int[MAX];
@@ -16,13 +16,11 @@ public class SortsLab {
 		testList(list);
 		
 		// Ascending order list
-		System.out.println();
 		ListSetup.MakeInOrder(list);
 		System.out.println("Here are the sorts with arrays in ascending order:");
 		testList(list);	
 		
 		// Descending order list
-		System.out.println();
 		ListSetup.MakeReverse(list);
 		System.out.println("Here are the sorts with arrays in descending order:");
 		testList(list);
@@ -61,6 +59,7 @@ public class SortsLab {
 		ListSetup.Print(list4);
 		System.out.println("merge Sort compares the pivot variable " + mcount + " times");
 
+		System.out.println();
 	}
 
 	public static void main(String args[]) {
