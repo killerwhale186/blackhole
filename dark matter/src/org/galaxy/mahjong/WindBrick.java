@@ -21,4 +21,5 @@ public class WindBrick extends Brick {
 			return false;
 		}
 	}
+
 }
