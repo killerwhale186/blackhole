@@ -10,7 +10,7 @@ import org.galaxy.util.*;
 //calculate 24 with four numbers from 1 to 13
 public class TwentyFour {
 	
-	private static Fraction goal = new Fraction(24);
+	private static Fraction FinalGoal = new Fraction(24);
 
 	public static void main(String[] args) {
 		for (int i = 0; i < 20; i++) {
@@ -24,7 +24,7 @@ public class TwentyFour {
 		list.add(new Fraction((int)(1 + Math.random() * 13)));
 		list.add(new Fraction((int)(1 + Math.random() * 13)));
 		list.add(new Fraction((int)(1 + Math.random() * 13)));
-		String s = getResult(list, goal);
+		String s = getResult(list, FinalGoal);
 		System.out.println(list + " ===>>> " + s);
 	}
 	
@@ -43,33 +43,9 @@ public class TwentyFour {
 			List<Fraction> l1 = getSublist(numbers, subset);
 			List<Fraction> l2 = getRemainList(numbers, subset);
 			Fraction f1 = l1.get(0);
-			String s = getResult(l2, goal.subtract(f1));
+			String s = getDesired(f1, l2, goal);
 			if (s != null) {
-				return "(" + f1 + "+" + s + ")";
-			}
-			s = getResult(l2, goal.add(f1));
-			if (s != null) {
-				return "(" + s + "-" + f1 + ")";
-			}
-			s = getResult(l2, goal.divide(f1));
-			if (s != null) {
-				return "(" + f1 + "*" + s + ")";
-			}
-			if (!goal.equals(Fraction.Zero)) {
-				s = getResult(l2, f1.divide(goal));
-				if (s != null) {
-					return "(" + f1 + "/" + s + ")";
-				}
-			}
-			s = getResult(l2, f1.subtract(goal));
-			if (s != null) {
-				return "(" + f1 + "-" + s + ")";
-			}
-			if (!f1.equals(Fraction.Zero)) {
-				s = getResult(l2, goal.multiply(f1));
-				if (s != null) {
-					return "(" + s + "/" + f1 + ")";
-				}
+				return s;
 			}
 		}
 		
@@ -111,6 +87,38 @@ public class TwentyFour {
 			}
 		}
 		
+		return null;
+	}
+	
+	private static String getDesired(Fraction f1, List<Fraction> l2, Fraction goal) {
+		String s = getResult(l2, goal.subtract(f1));
+		if (s != null) {
+			return "(" + f1 + "+" + s + ")";
+		}
+		s = getResult(l2, goal.add(f1));
+		if (s != null) {
+			return "(" + s + "-" + f1 + ")";
+		}
+		s = getResult(l2, goal.divide(f1));
+		if (s != null) {
+			return "(" + f1 + "*" + s + ")";
+		}
+		if (!goal.equals(Fraction.Zero)) {
+			s = getResult(l2, f1.divide(goal));
+			if (s != null) {
+				return "(" + f1 + "/" + s + ")";
+			}
+		}
+		s = getResult(l2, f1.subtract(goal));
+		if (s != null) {
+			return "(" + f1 + "-" + s + ")";
+		}
+		if (!f1.equals(Fraction.Zero)) {
+			s = getResult(l2, goal.multiply(f1));
+			if (s != null) {
+				return "(" + s + "/" + f1 + ")";
+			}
+		}
 		return null;
 	}
 	
