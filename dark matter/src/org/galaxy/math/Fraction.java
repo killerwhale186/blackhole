@@ -8,6 +8,8 @@ public class Fraction {
 	private int denominater;
 	private int numerator;
 	
+	public static Fraction Zero = new Fraction(0);
+	
 	public Fraction(int n) {
 		this(n, 1);
 	}
@@ -64,7 +66,14 @@ public class Fraction {
 		return 1;
 	}
 	
+	public boolean equals(Fraction f) {
+		return this.numerator * f.denominater == this.denominater * f.numerator;
+	}
+	
 	public String toString() {
+		if (this.denominater == 1) {
+			return this.numerator + "";
+		}
 		return this.numerator + "/" + this.denominater;
 	}
 }
