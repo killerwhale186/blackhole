@@ -10,6 +10,9 @@ public class CompoundFractionExpression extends FractionExpression {
 		this.leftOp = left;
 		this.rightOp = right;
 		this.operator = op;
+		if (this.operator == MathOperator.DIVIDE && this.rightOp.getValue().equals(Fraction.Zero)) {
+			throw new RuntimeException();
+		}
 	}
 
 	@Override
