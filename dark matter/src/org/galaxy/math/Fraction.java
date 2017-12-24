@@ -4,7 +4,8 @@ package org.galaxy.math;
 /**
  * This class represents the fractions in math
  */
-public class Fraction {
+public class Fraction extends FractionExpression {
+	
 	private int denominater;
 	private int numerator;
 	
@@ -47,25 +48,11 @@ public class Fraction {
 
 	//reduce something like 15/20 to 3/4
 	private void reduce() {
-		int factor = findFactor(this.numerator, this.denominater);
-		while (factor > 1) {
-			this.numerator = this.numerator / factor;
-			this.denominater = this.denominater / factor;
-			factor = findFactor(this.numerator, this.denominater);
-		}
+		int gcd = NumberUtil.getGCD(this.numerator, this.denominater);
+		this.numerator /= gcd;
+		this.denominater /= gcd;
 	}
-	
-	//find a common factor, 1 if none exists
-	private int findFactor(int a, int b) {
-		int min = Math.min(a, b);
-		for (int i = 2; i <= min; i++) {
-			if (a % i == 0 && b % i == 0) {
-				return i;
-			}
-		}
-		return 1;
-	}
-	
+
 	public boolean equals(Fraction f) {
 		return this.numerator * f.denominater == this.denominater * f.numerator;
 	}
@@ -75,5 +62,10 @@ public class Fraction {
 			return this.numerator + "";
 		}
 		return this.numerator + "/" + this.denominater;
+	}
+
+	@Override
+	public Fraction getValue() {
+		return this;
 	}
 }

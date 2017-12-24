@@ -4,6 +4,9 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
+		Fraction f = new Fraction(90, 24);
+		System.out.println(f);
+		
 		ComplexNumber a = new ComplexNumber(1, 2);
 		ComplexNumber b = new ComplexNumber(3, 4);
 		System.out.println("a = " + a);

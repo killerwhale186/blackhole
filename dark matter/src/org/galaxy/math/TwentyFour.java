@@ -2,8 +2,6 @@ package org.galaxy.math;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import org.galaxy.util.*;
 
@@ -13,26 +11,42 @@ public class TwentyFour {
 	private static Fraction FinalGoal = new Fraction(24);
 
 	public static void main(String[] args) {
+
+		testOne(1, 4, 5, 6);
+		testOne(1, 6, 11, 13);
+		testOne(10, 4, 10, 4);
+		testOne(1, 7, 13, 13);
+		
 		for (int i = 0; i < 20; i++) {
 			testRandom();
 		}
 	}
-
+	
+	private static void testOne(int a, int b, int c, int d) {
+		List<Fraction> list = new ArrayList<Fraction>();
+		list.add(new Fraction(a));
+		list.add(new Fraction(b));
+		list.add(new Fraction(c));
+		list.add(new Fraction(d));
+		FractionExpression exp = getResult(list, FinalGoal);
+		System.out.println(list + " ===>>> " + exp);
+	}
+	
 	private static void testRandom() {
 		List<Fraction> list = new ArrayList<Fraction>();
 		list.add(new Fraction((int)(1 + Math.random() * 13)));
 		list.add(new Fraction((int)(1 + Math.random() * 13)));
 		list.add(new Fraction((int)(1 + Math.random() * 13)));
 		list.add(new Fraction((int)(1 + Math.random() * 13)));
-		String s = getResult(list, FinalGoal);
-		System.out.println(list + " ===>>> " + s);
+		FractionExpression exp = getResult(list, FinalGoal);
+		System.out.println(list + " ===>>> " + exp);
 	}
 	
-	public static String getResult(List<Fraction> numbers, Fraction goal) {
+	public static FractionExpression getResult(List<Fraction> numbers, Fraction goal) {
 
 		if (numbers.size() == 1) {
 			if (numbers.get(0).equals(goal)) {
-				return goal.toString();
+				return numbers.get(0);
 			} else {
 				return null;
 			}
@@ -43,7 +57,7 @@ public class TwentyFour {
 			List<Fraction> l1 = getSublist(numbers, subset);
 			List<Fraction> l2 = getRemainList(numbers, subset);
 			Fraction f1 = l1.get(0);
-			String s = getDesired(f1, l2, goal);
+			FractionExpression s = getDesired(f1, l2, goal);
 			if (s != null) {
 				return s;
 			}
@@ -54,34 +68,11 @@ public class TwentyFour {
 			for (Set<Integer> subset2 : subsets2) {
 				List<Fraction> l1 = getSublist(numbers, subset2);
 				List<Fraction> l2 = getRemainList(numbers, subset2);
-				Map<String, Fraction> m1 = getAllResults(l1);
-				Map<String, Fraction> m2 = getAllResults(l2);
-				for (String s1 : m1.keySet()) {
-					for (String s2 : m2.keySet()) {
-						Fraction f1 = m1.get(s1);
-						Fraction f2 = m2.get(s2);
-						if (f1.add(f2).equals(goal)) {
-							return s1 + "+" + s2;
-						}
-						if (f1.subtract(f2).equals(goal)) {
-							return s1 + "-" + s2;
-						}
-						if (f1.multiply(f2).equals(goal)) {
-							return s1 + "*" + s2;
-						}
-						if (!f2.equals(Fraction.Zero)) {
-							if (f1.divide(f2).equals(goal)) {
-								return s1 + "/" + s2;
-							}
-						}
-						if (f2.subtract(f1).equals(goal)) {
-							return s2 + "-" + s1;
-						}
-						if (!f1.equals(Fraction.Zero)) {
-							if (f2.divide(f1).equals(goal)) {
-								return s2 + "/" + s1;
-							}
-						}
+				List<FractionExpression> flist = getAllResults(l1);
+				for (FractionExpression f1 : flist) {
+					FractionExpression s = getDesired(f1, l2, goal);
+					if (s != null) {
+						return s;
 					}
 				}
 			}
@@ -90,49 +81,62 @@ public class TwentyFour {
 		return null;
 	}
 	
-	private static String getDesired(Fraction f1, List<Fraction> l2, Fraction goal) {
-		String s = getResult(l2, goal.subtract(f1));
+	private static FractionExpression getDesired(FractionExpression f1, List<Fraction> l2, Fraction goal) {
+		FractionExpression s = null;
+		//
+		s = getResult(l2, goal.subtract(f1.getValue()));
 		if (s != null) {
-			return "(" + f1 + "+" + s + ")";
+			return new CompoundFractionExpression(f1, s, MathOperator.PLUS);
 		}
-		s = getResult(l2, goal.add(f1));
+		//
+		s = getResult(l2, goal.add(f1.getValue()));
 		if (s != null) {
-			return "(" + s + "-" + f1 + ")";
+			return new CompoundFractionExpression(s, f1, MathOperator.MINUS);
 		}
-		s = getResult(l2, goal.divide(f1));
-		if (s != null) {
-			return "(" + f1 + "*" + s + ")";
-		}
-		if (!goal.equals(Fraction.Zero)) {
-			s = getResult(l2, f1.divide(goal));
+		//
+		if (!f1.getValue().equals(Fraction.Zero)) {
+			s = getResult(l2, goal.divide(f1.getValue()));
 			if (s != null) {
-				return "(" + f1 + "/" + s + ")";
+				return new CompoundFractionExpression(f1, s, MathOperator.MULTIPLY);
 			}
 		}
-		s = getResult(l2, f1.subtract(goal));
-		if (s != null) {
-			return "(" + f1 + "-" + s + ")";
-		}
-		if (!f1.equals(Fraction.Zero)) {
-			s = getResult(l2, goal.multiply(f1));
+		//
+		if (!goal.equals(Fraction.Zero)) {
+			s = getResult(l2, f1.getValue().divide(goal));
 			if (s != null) {
-				return "(" + s + "/" + f1 + ")";
+				return new CompoundFractionExpression(f1, s, MathOperator.DIVIDE);
+			}
+		}
+		//
+		s = getResult(l2, f1.getValue().subtract(goal));
+		if (s != null) {
+			return new CompoundFractionExpression(f1, s, MathOperator.MINUS);
+		}
+		//
+		if (!f1.getValue().equals(Fraction.Zero) && !goal.equals(Fraction.Zero)) {
+			s = getResult(l2, goal.multiply(f1.getValue()));
+			if (s != null) {
+				return new CompoundFractionExpression(s, f1, MathOperator.DIVIDE);
 			}
 		}
 		return null;
 	}
 	
 	//returns all possible combo/results for two numbers
-	private static Map<String, Fraction> getAllResults(List<Fraction> fracs) {
-		Map<String, Fraction> ret = new HashMap<String, Fraction>();
+	private static List<FractionExpression> getAllResults(List<Fraction> fracs) {
+		List<FractionExpression> ret = new ArrayList<FractionExpression>();
 		Fraction f1 = fracs.get(0);
 		Fraction f2 = fracs.get(1);
-		ret.put("(" + f1 + "+" + f2 + ")", f1.add(f2));
-		ret.put("(" + f1 + "-" + f2 + ")", f1.subtract(f2));
-		ret.put("(" + f1 + "*" + f2 + ")", f1.multiply(f2));
-		ret.put("(" + f1 + "/" + f2 + ")", f1.divide(f2));
-		ret.put("(" + f2 + "-" + f1 + ")", f2.subtract(f1));
-		ret.put("(" + f2 + "/" + f1 + ")", f2.divide(f1));
+		ret.add(new CompoundFractionExpression(f1, f2, MathOperator.PLUS));
+		ret.add(new CompoundFractionExpression(f1, f2, MathOperator.MINUS));
+		ret.add(new CompoundFractionExpression(f1, f2, MathOperator.MULTIPLY));
+		if (!f2.equals(Fraction.Zero)) {
+			ret.add(new CompoundFractionExpression(f1, f2, MathOperator.DIVIDE));
+		}
+		ret.add(new CompoundFractionExpression(f2, f1, MathOperator.MINUS));
+		if (!f1.equals(Fraction.Zero)) {
+			ret.add(new CompoundFractionExpression(f2, f1, MathOperator.DIVIDE));
+		}
 		return ret;
 	}
 	
