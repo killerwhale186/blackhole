@@ -48,24 +48,43 @@ public class Fraction extends FractionExpression {
 
 	//reduce something like 15/20 to 3/4
 	private void reduce() {
+		if (this.denominater < 0) {
+			this.denominater *= (-1);
+			this.numerator *= (-1);
+		}
 		int gcd = NumberUtil.getGCD(this.numerator, this.denominater);
 		this.numerator /= gcd;
 		this.denominater /= gcd;
 	}
-
-	public boolean equals(Fraction f) {
-		return this.numerator * f.denominater == this.denominater * f.numerator;
-	}
 	
-	public String toString() {
-		if (this.denominater == 1) {
-			return this.numerator + "";
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Fraction) {
+			Fraction f = (Fraction)o;
+			return this.numerator * f.denominater == this.denominater * f.numerator;
+		} else {
+			return false;
 		}
-		return this.numerator + "/" + this.denominater;
 	}
 
 	@Override
 	public Fraction getValue() {
 		return this;
+	}
+	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + this.numerator;
+        result = prime * result + this.denominater;
+        return result;
+    }
+    
+	public String toString() {
+		if (this.denominater == 1) {
+			return this.numerator + "";
+		}
+		return this.numerator + "/" + this.denominater;
 	}
 }
