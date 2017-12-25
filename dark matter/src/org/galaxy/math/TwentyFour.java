@@ -19,6 +19,8 @@ public class TwentyFour {
 		testOne(1, 1, 13, 1);
 		testOne(5, 10, 13, 10);
 		testOne(6, 11, 11, 6);
+		testOne(5, 5, 5, 1);
+		testOne(8, 8, 7, 13);
 		
 		for (int i = 0; i < 20; i++) {
 			testRandom();
@@ -54,18 +56,8 @@ public class TwentyFour {
 				return null;
 			}
 		}
-		
-		Set<Set<Integer>> subsets = SetUtil.getSubsetIndex(numbers.size(), 1);
-		for (Set<Integer> subset : subsets) {
-			List<Fraction> l1 = getSubList(numbers, subset);
-			List<Fraction> l2 = getRemainList(numbers, subset);
-			Fraction f1 = l1.get(0);
-			FractionExpression s = getDesired(f1, l2, goal);
-			if (s != null) {
-				return s;
-			}
-		}
-		
+	
+		//two by two
 		if (numbers.size() >= 4) {
 			Set<Set<Integer>> subsets2 = SetUtil.getSubsetIndex(numbers.size(), 2);
 			for (Set<Integer> subset2 : subsets2) {
@@ -81,9 +73,22 @@ public class TwentyFour {
 			}
 		}
 		
+		//one by three
+		Set<Set<Integer>> subsets = SetUtil.getSubsetIndex(numbers.size(), 1);
+		for (Set<Integer> subset : subsets) {
+			List<Fraction> l1 = getSubList(numbers, subset);
+			List<Fraction> l2 = getRemainList(numbers, subset);
+			Fraction f1 = l1.get(0);
+			FractionExpression s = getDesired(f1, l2, goal);
+			if (s != null) {
+				return s;
+			}
+		}
+		
 		return null;
 	}
 	
+	//try to get a number from l2, so that when combined with f1, we can get goal
 	private static FractionExpression getDesired(FractionExpression f1, List<Fraction> l2, Fraction goal) {
 		FractionExpression s = null;
 		//
