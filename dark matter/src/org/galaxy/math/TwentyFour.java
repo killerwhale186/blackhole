@@ -97,30 +97,30 @@ public class TwentyFour {
 					Map<Fraction, FractionExpression> subsubmp2 = mp.get(getKey(subsubset2));
 					for (Fraction f1 : subsubmp1.keySet()) {
 						for (Fraction f2 : subsubmp2.keySet()) {
-							FractionExpression exp = new CompositeFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.PLUS);
+							FractionExpression exp = new CompositeExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.PLUS);
 							Fraction val = f1.add(f2);
 							submp.put(val,  exp);
 							
-							FractionExpression exp2 = new CompositeFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.MINUS);
+							FractionExpression exp2 = new CompositeExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.MINUS);
 							Fraction val2 = f1.subtract(f2);
 							submp.put(val2,  exp2);
 							
-							FractionExpression exp3 = new CompositeFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.MULTIPLY);
+							FractionExpression exp3 = new CompositeExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.MULTIPLY);
 							Fraction val3 = f1.multiply(f2);
 							submp.put(val3,  exp3);
 							
 							if (!f2.getValue().equals(Fraction.Zero)) {
-								FractionExpression exp4 = new CompositeFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.DIVIDE);
+								FractionExpression exp4 = new CompositeExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.DIVIDE);
 								Fraction val4 = f1.divide(f2);
 								submp.put(val4,  exp4);
 							}
 							
-							FractionExpression exp5 = new CompositeFractionExpression(subsubmp2.get(f2), subsubmp1.get(f1), MathOperator.MINUS);
+							FractionExpression exp5 = new CompositeExpression(subsubmp2.get(f2), subsubmp1.get(f1), MathOperator.MINUS);
 							Fraction val5 = f2.subtract(f1);
 							submp.put(val5,  exp5);
 							
 							if (!f1.getValue().equals(Fraction.Zero)) {
-								FractionExpression exp6 = new CompositeFractionExpression(subsubmp2.get(f2), subsubmp1.get(f1), MathOperator.DIVIDE);
+								FractionExpression exp6 = new CompositeExpression(subsubmp2.get(f2), subsubmp1.get(f1), MathOperator.DIVIDE);
 								Fraction val6 = f2.divide(f1);
 								submp.put(val6,  exp6);
 							}
