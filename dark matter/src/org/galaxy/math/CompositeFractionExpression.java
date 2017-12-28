@@ -1,12 +1,12 @@
 package org.galaxy.math;
 
-public class CompoundFractionExpression extends FractionExpression {
+public class CompositeFractionExpression extends FractionExpression {
 
 	private FractionExpression leftOp;
 	private FractionExpression rightOp;
 	private MathOperator operator;
 
-	public CompoundFractionExpression(FractionExpression left, FractionExpression right, MathOperator op) {
+	public CompositeFractionExpression(FractionExpression left, FractionExpression right, MathOperator op) {
 		this.leftOp = left;
 		this.rightOp = right;
 		this.operator = op;

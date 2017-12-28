@@ -8,7 +8,7 @@ import java.util.Set;
 public class SetUtil {
 	
 	public static void main(String[] args) {
-		Set<Set<Integer>> subs = getSubsetIndex(7, 2);
+		Set<Set<Integer>> subs = getSubsetIndex(6, 3);
 		System.out.println(subs);
 		System.out.println(subs.size());
 	}

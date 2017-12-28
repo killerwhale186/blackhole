@@ -14,16 +14,21 @@ public class TwentyFour {
 	
 	public static void main(String[] args) {
 
-		testOne(5, 6, 1, 4);
-		testOne(1, 6, 11, 13);
-		testOne(10, 4, 10, 4);
-		testOne(1, 7, 13, 13);
-		testOne(1, 1, 13, 1);
-		testOne(5, 10, 13, 10);
-		testOne(6, 11, 11, 6);
-		testOne(5, 5, 5, 1);
-		testOne(8, 8, 7, 13);
-		
+		//testOne(5, 6, 1, 4);
+		//testOne(1, 6, 11, 13);
+		//testOne(10, 4, 10, 4);
+		//testOne(1, 7, 13, 13);
+		//testOne(1, 1, 13, 1);
+		//testOne(5, 10, 13, 10);
+		//testOne(6, 11, 11, 6);
+		//testOne(5, 5, 5, 1);
+		//testOne(8, 8, 7, 13);
+		//testOne(3, 3, 3, 3);
+		//testOne(4, 4, 4, 4);
+		//testOne(5, 5, 5, 5);
+		//testOne(6, 6, 6, 6);
+		//testOne(12, 12, 12, 12);
+
 		for (int i = 0; i < 10; i++) {
 			testRandom();
 		}
@@ -35,8 +40,9 @@ public class TwentyFour {
 		list.add((int)(1 + Math.random() * 13));
 		list.add((int)(1 + Math.random() * 13));
 		list.add((int)(1 + Math.random() * 13));
-		list.add((int)(1 + Math.random() * 13));
-		list.add((int)(1 + Math.random() * 13));
+		//list.add((int)(1 + Math.random() * 13));
+		//list.add((int)(1 + Math.random() * 13));
+		//list.add((int)(1 + Math.random() * 13));
 		//list.add((int)(1 + Math.random() * 13));
 		FractionExpression exp = findSolution(list, FinalGoal);
 		System.out.println(list + " ===>>> " + exp);
@@ -75,7 +81,7 @@ public class TwentyFour {
 			return;
 		}
 		
-		boolean lastLevel = (level == list.size());
+		//boolean lastLevel = (level == list.size());
 		Set<Set<Integer>> subsetsIndex = SetUtil.getSubsetIndex(list.size(), level);
 		for (Set<Integer> subsetIndex : subsetsIndex) {
 			List<Fraction> sublist = getSubList(list, subsetIndex);
@@ -91,50 +97,32 @@ public class TwentyFour {
 					Map<Fraction, FractionExpression> subsubmp2 = mp.get(getKey(subsubset2));
 					for (Fraction f1 : subsubmp1.keySet()) {
 						for (Fraction f2 : subsubmp2.keySet()) {
-							FractionExpression exp = new CompoundFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.PLUS);
+							FractionExpression exp = new CompositeFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.PLUS);
 							Fraction val = f1.add(f2);
 							submp.put(val,  exp);
-							if (lastLevel && exp.getValue().equals(goal)) {
-								return;
-							}
 							
-							FractionExpression exp2 = new CompoundFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.MINUS);
+							FractionExpression exp2 = new CompositeFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.MINUS);
 							Fraction val2 = f1.subtract(f2);
 							submp.put(val2,  exp2);
-							if (lastLevel && exp2.getValue().equals(goal)) {
-								return;
-							}
 							
-							FractionExpression exp3 = new CompoundFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.MULTIPLY);
+							FractionExpression exp3 = new CompositeFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.MULTIPLY);
 							Fraction val3 = f1.multiply(f2);
 							submp.put(val3,  exp3);
-							if (lastLevel && exp3.getValue().equals(goal)) {
-								return;
-							}
 							
 							if (!f2.getValue().equals(Fraction.Zero)) {
-								FractionExpression exp4 = new CompoundFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.DIVIDE);
+								FractionExpression exp4 = new CompositeFractionExpression(subsubmp1.get(f1), subsubmp2.get(f2), MathOperator.DIVIDE);
 								Fraction val4 = f1.divide(f2);
 								submp.put(val4,  exp4);
-								if (lastLevel && exp4.getValue().equals(goal)) {
-									return;
-								}
 							}
 							
-							FractionExpression exp5 = new CompoundFractionExpression(subsubmp2.get(f2), subsubmp1.get(f1), MathOperator.MINUS);
+							FractionExpression exp5 = new CompositeFractionExpression(subsubmp2.get(f2), subsubmp1.get(f1), MathOperator.MINUS);
 							Fraction val5 = f2.subtract(f1);
 							submp.put(val5,  exp5);
-							if (lastLevel && exp5.getValue().equals(goal)) {
-								return;
-							}
 							
 							if (!f1.getValue().equals(Fraction.Zero)) {
-								FractionExpression exp6 = new CompoundFractionExpression(subsubmp2.get(f2), subsubmp1.get(f1), MathOperator.DIVIDE);
+								FractionExpression exp6 = new CompositeFractionExpression(subsubmp2.get(f2), subsubmp1.get(f1), MathOperator.DIVIDE);
 								Fraction val6 = f2.divide(f1);
 								submp.put(val6,  exp6);
-								if (lastLevel && exp6.getValue().equals(goal)) {
-									return;
-								}
 							}
 						}
 					}
