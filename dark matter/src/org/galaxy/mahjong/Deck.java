@@ -21,6 +21,16 @@ public class Deck {
 		}
 	}
 	
+	public void shuffle() {
+		int run = 1000;
+		while (run > 0) {
+			int index = (int) (Math.random() * this.bricks.size());
+			Brick hold = this.bricks.remove(index);
+			this.bricks.add(hold);
+			run--;
+		}
+	}
+	
 	public static void main(String[] args) {
 		Deck d = new Deck();
 		for (Brick bk : d.bricks) {

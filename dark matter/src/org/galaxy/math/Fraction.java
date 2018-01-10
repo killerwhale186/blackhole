@@ -4,9 +4,12 @@ package org.galaxy.math;
 /**
  * This class represents the fractions in math
  */
-public class Fraction {
+public class Fraction extends FractionExpression {
+	
 	private int denominater;
 	private int numerator;
+	
+	public static Fraction Zero = new Fraction(0);
 	
 	public Fraction(int n) {
 		this(n, 1);
@@ -45,26 +48,43 @@ public class Fraction {
 
 	//reduce something like 15/20 to 3/4
 	private void reduce() {
-		int factor = findFactor(this.numerator, this.denominater);
-		while (factor > 1) {
-			this.numerator = this.numerator / factor;
-			this.denominater = this.denominater / factor;
-			factor = findFactor(this.numerator, this.denominater);
+		if (this.denominater < 0) {
+			this.denominater *= (-1);
+			this.numerator *= (-1);
 		}
+		int gcd = NumberUtil.getGCD(this.numerator, this.denominater);
+		this.numerator /= gcd;
+		this.denominater /= gcd;
 	}
 	
-	//find a common factor, 1 if none exists
-	private int findFactor(int a, int b) {
-		int min = Math.min(a, b);
-		for (int i = 2; i <= min; i++) {
-			if (a % i == 0 && b % i == 0) {
-				return i;
-			}
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Fraction) {
+			Fraction f = (Fraction)o;
+			return this.numerator * f.denominater == this.denominater * f.numerator;
+		} else {
+			return false;
 		}
-		return 1;
+	}
+
+	@Override
+	public Fraction getValue() {
+		return this;
 	}
 	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + this.numerator;
+        result = prime * result + this.denominater;
+        return result;
+    }
+    
 	public String toString() {
+		if (this.denominater == 1) {
+			return this.numerator + "";
+		}
 		return this.numerator + "/" + this.denominater;
 	}
 }

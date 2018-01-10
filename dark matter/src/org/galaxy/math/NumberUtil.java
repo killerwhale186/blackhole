@@ -4,7 +4,7 @@ package org.galaxy.math;
 public class NumberUtil {
 
 	public static void main(String[] args) {
-		int c = getGCD(60, 40);
+		int c = getGCD(0, 40);
 		System.out.println(c);
 		
 		System.out.println(isPrime(67));
@@ -26,8 +26,13 @@ public class NumberUtil {
 	}
 	
 	public static int getGCD(int a, int b) {
+		if (a < 0) {a = a * (-1);}
+		if (b < 0) {b = b * (-1);}
 		if (a < b) {
 			return getGCD(b, a);
+		}
+		if (b == 0) {
+			return a;
 		}
 		if (a % b == 0) {
 			return b;
