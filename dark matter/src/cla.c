@@ -68,14 +68,13 @@ int main()
         gc[groupIndex(j)] = gg[groupIndex(j)] | (gp[groupIndex(j)] & gc[groupIndex(j-1)]);
     }
     
-    for (j = 0; j < GROUPS; j++) {
-        c[bitIndex(j*4+3)] = gc[groupIndex(j)];
-        for (i = 0; i < 3; i++) {
-            if (j*4+i-1 < 0) {
-                c[bitIndex(j*4+i)] = g[bitIndex(j*4+i)];
-            } else {
-                c[bitIndex(j*4+i)] = g[bitIndex(j*4+i)] | (p[bitIndex(j*4+i)] & c[bitIndex(j*4+i-1)]);
-            }
+    for (i = 0; i < BITS; i++) {
+        if (i == 0) {
+            c[bitIndex(i)] = g[bitIndex(i)];
+        } else if (i % 4 == 0) {
+            c[bitIndex(i)] = g[bitIndex(i)] | (p[bitIndex(i)] & gc[groupIndex(i/4-1)]);
+        } else {
+            c[bitIndex(i)] = g[bitIndex(i)] | (p[bitIndex(i)] & c[bitIndex(i-1)]);
         }
     }
     
