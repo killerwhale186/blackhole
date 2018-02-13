@@ -83,6 +83,7 @@ public class lab12 {
                 System.exit(0);
             }
 
+            //AAA
             Arrays.sort(alphabet);
             System.out.print("\nFiltering duplicate frequencies in the text file-");
             for (int b = 0; b < alphabet2.length - 1; b++) {
@@ -102,6 +103,7 @@ public class lab12 {
                 }
             }
 
+            //AAA
             Arrays.sort(alphabet, new LetterComparator());
             System.out.print("\n\n[Here is the decoded message]: \n\n");
             while (file2.hasNextLine() == true) {
@@ -111,6 +113,7 @@ public class lab12 {
                         System.out.print(nextLine.charAt(i)); // prints non letter characters
                     }
                     else { // if the character is a letter, print the associate of that letter
+                        //AAA
                         //for (int k = 0; k < alphabet.length; k++) { // organizes and replaces based on frequency
                         //    if (alphabet2[k].getLetter() == nextLine.charAt(i)) { // once the corresponding original letter and index is found
                         //        System.out.print(Character.toUpperCase(alphabet2[k].getAssociate())); // print its associate letter from the frequency chart
