@@ -68,7 +68,8 @@ public class lab12 {
         }
         
         while (stillInUse == 1) {
-            Record[] alphabet2 = alphabet;
+            //AAA
+            //Record[] alphabet2 = alphabet;
             //alphabet2 = new Record[alphabet.length];
             //for (int i = 0; i < alphabet.length; i++) {
             //    alphabet2[i] = alphabet[i];
@@ -86,8 +87,8 @@ public class lab12 {
             //AAA
             Arrays.sort(alphabet);
             System.out.print("\nFiltering duplicate frequencies in the text file-");
-            for (int b = 0; b < alphabet2.length - 1; b++) {
-                if (alphabet2[b].getFrequency() == alphabet2[b + 1].getFrequency()) { // if the current frequency is unique
+            for (int b = 0; b < alphabet.length - 1; b++) {
+                if (alphabet[b].getFrequency() == alphabet[b + 1].getFrequency()) { // if the current frequency is unique
                     System.out.print("\nDuplicate frequencies found with ["
                             + Character.toUpperCase(alphabet[b].getLetter()) + ":" +
                             Character.toUpperCase(alphabet[b].getAssociate()) + " and "
@@ -97,8 +98,8 @@ public class lab12 {
                     System.out.print("\nchoose a re-assignment order for the two respective associate letters: \n");
                     char replacement = in.next().charAt(0);
                     char replacement2 = in.next().charAt(0);
-                    alphabet2[b].setAssociate(replacement); // needs to switch, not replace both!! <--------------
-                    alphabet2[b + 1].setAssociate(replacement2);
+                    alphabet[b].setAssociate(replacement); // needs to switch, not replace both!! <--------------
+                    alphabet[b + 1].setAssociate(replacement2);
                     b++;
                 }
             }
@@ -120,7 +121,7 @@ public class lab12 {
                         //    }
                         //}
                         int index = letters.indexOf(nextLine.charAt(i)); // index of original letter correlates directly to the associate in the array
-                        System.out.print(Character.toUpperCase(alphabet2[index].getAssociate()));
+                        System.out.print(Character.toUpperCase(alphabet[index].getAssociate()));
                     }
                 }
                 System.out.print("\n");
@@ -152,7 +153,7 @@ public class lab12 {
                         }
                         else {
                             int index = letters.indexOf(nextLine.charAt(i)); // index of original letter correlates directly to the associate in the array
-                            writer.print(Character.toUpperCase(alphabet2[index].getAssociate()));
+                            writer.print(Character.toUpperCase(alphabet[index].getAssociate()));
                         }
                     }
                     writer.print("\n");
