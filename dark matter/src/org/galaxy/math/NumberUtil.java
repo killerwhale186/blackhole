@@ -1,18 +1,56 @@
 package org.galaxy.math;
 
+import java.util.*;
 
 public class NumberUtil {
 
 	public static void main(String[] args) {
-		int c = getGCD(0, 40);
-		System.out.println(c);
+		//int c = getGCD(0, 40);
+		//System.out.println(c);
 		
-		System.out.println(isPrime(67));
-		System.out.println(isPrime(143));
-		System.out.println(isPrime(2));
-		System.out.println(isPrime(49));
+		//System.out.println(isPrime(67));
+		//System.out.println(isPrime(143));
+		//System.out.println(isPrime(2));
+		//System.out.println(isPrime(49));
 		
-		genFibonacci(10);
+		//genFibonacci(10);
+		List<String> res = pythagoreanSolutions(300, 2);
+		for (String s : res) {
+			System.out.println(s);
+		}
+	}
+
+	public static List<String> pythagoreanSolutions(Integer max, Integer p) {
+		List<String> res = new ArrayList<String>();
+		for (Integer a = 1; a <= max; a++) {
+			for (Integer b = a + 1; b <= max; b++) {
+				for (Integer c = b + 1; c <= max; c++) {
+					if (pow(a, p) + pow(b, p) == pow(c, p)) {
+						if (hasFactor(a, b, c) == false) {
+							res.add(a + "^" + p + " + " + b + "^" + p + " = " + c + "^" + p);
+						}
+					}
+				}
+			}
+		}
+		return res;
+	}
+
+	private static Long pow(Integer base, Integer exp) {
+		Long ret = 1L;
+		for (Integer i = 1; i <= exp; i++) {
+			ret *= base;
+		}
+		return ret;
+	}
+
+	private static boolean hasFactor(Integer a, Integer b, Integer c) {
+		for (Integer i = 2; i <= a; i++) {
+			if (a % i == 0 && b % b == 0 && c % i == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static boolean isPrime(int a) {
