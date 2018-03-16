@@ -7,7 +7,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		
-		Deck deck = new Deck();
+		Deck deck = new Deck(false);
 		deck.shuffle();
 		//System.out.println(deck);
 		
