@@ -5,9 +5,11 @@ import java.util.List;
 
 public class Deck {
 
+	private boolean aceIsOne = true;
 	private List<Card> cards;
 	
-	public Deck() {
+	public Deck(boolean aceIsOne) {
+		this.aceIsOne = aceIsOne;
 		this.cards = new ArrayList<Card>();
 		addCards('S');
 		addCards('H');
@@ -19,14 +21,23 @@ public class Deck {
 		return this.cards;
 	}
 	
+	public boolean hasCards() {
+		return this.cards.size() > 0;
+	}
+	
 	public Card removeRandomCard() {
 		int index = (int) (Math.random() * this.cards.size());
 		return this.cards.remove(index);
 	}
 	
 	private void addCards(char suit) {
-		for (int i = 2; i <= 14; i++) {
+		for (int i = 2; i <= 13; i++) {
 			this.cards.add(new Card(suit, i));
+		}
+		if (this.aceIsOne) {
+			this.cards.add(new Card(suit, 1));
+		} else {
+			this.cards.add(new Card(suit, 14));
 		}
 	}
 	

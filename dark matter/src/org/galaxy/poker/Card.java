@@ -39,7 +39,7 @@ public class Card {
 			return "Q";
 		} else if (this.rank == 13) {
 			return "K";
-		} else if (this.rank == 14) {
+		} else if (this.rank == 1 || this.rank == 14) {
 			return "A";
 		} else {
 			return String.valueOf(this.rank);
