@@ -53,16 +53,6 @@ public class NumberUtil {
 		return false;
 	}
 
-	public static boolean isPrime(int a) {
-		int upperBound = (int)Math.sqrt(a);
-		for (int i = 2; i <= upperBound; i++) {
-			if (a % i == 0) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
 	public static int getGCD(int a, int b) {
 		if (a < 0) {a = a * (-1);}
 		if (b < 0) {b = b * (-1);}

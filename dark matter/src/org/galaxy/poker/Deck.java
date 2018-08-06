@@ -25,6 +25,10 @@ public class Deck {
 		return this.cards.size() > 0;
 	}
 	
+	public Card removeTop() {
+		return this.cards.remove(0);
+	}
+	
 	public Card removeRandomCard() {
 		int index = (int) (Math.random() * this.cards.size());
 		return this.cards.remove(index);

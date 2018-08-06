@@ -23,27 +23,17 @@ public class TwentyFour {
 		//testOne(6, 11, 11, 6);
 		//testOne(5, 5, 5, 1);
 		//testOne(8, 8, 7, 13);
-		//testOne(3, 3, 3, 3);
-		//testOne(4, 4, 4, 4);
-		//testOne(5, 5, 5, 5);
-		//testOne(6, 6, 6, 6);
-		//testOne(12, 12, 12, 12);
 
 		for (int i = 0; i < 10; i++) {
-			testRandom();
+			testRandom(4);
 		}
 	}
 	
-	private static void testRandom() {
+	private static void testRandom(int n) {
 		List<Integer> list = new ArrayList<Integer>();
-		list.add((int)(1 + Math.random() * 13));
-		list.add((int)(1 + Math.random() * 13));
-		list.add((int)(1 + Math.random() * 13));
-		list.add((int)(1 + Math.random() * 13));
-		//list.add((int)(1 + Math.random() * 13));
-		//list.add((int)(1 + Math.random() * 13));
-		//list.add((int)(1 + Math.random() * 13));
-		//list.add((int)(1 + Math.random() * 13));
+		for (int i = 0; i < n; i++) {
+			list.add((int)(1 + Math.random() * 13));
+		}
 		FractionExpression exp = findSolution(list, FinalGoal);
 		System.out.println(list + " ===>>> " + exp);
 	}
