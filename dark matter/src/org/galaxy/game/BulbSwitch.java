@@ -1,6 +1,6 @@
 package org.galaxy.game;
 
-public class FlipLights {
+public class BulbSwitch {
 
 	public static void main(String[] args) {
 		boolean[] lights = new boolean[100];

@@ -1,9 +1,9 @@
-package org.galaxy.poker;
+package org.galaxy.cardgame;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
+public class PokerTest {
 
 	public static void main(String[] args) {
 		

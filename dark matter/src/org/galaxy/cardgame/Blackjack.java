@@ -1,4 +1,4 @@
-package org.galaxy.poker;
+package org.galaxy.cardgame;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
