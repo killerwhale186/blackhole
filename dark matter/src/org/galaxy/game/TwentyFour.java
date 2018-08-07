@@ -1,4 +1,4 @@
-package org.galaxy.math;
+package org.galaxy.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.galaxy.math.CompositeExpression;
+import org.galaxy.math.Fraction;
+import org.galaxy.math.FractionExpression;
+import org.galaxy.math.MathOperator;
 import org.galaxy.util.SetUtil;
 
 public class TwentyFour {
@@ -23,7 +28,16 @@ public class TwentyFour {
 		//testOne(6, 11, 11, 6);
 		//testOne(5, 5, 5, 1);
 		//testOne(8, 8, 7, 13);
-
+		testOne(1, 3, 4, 6);
+		testOne(1, 6, 6, 8);
+		testOne(1, 8, 12, 12);
+		testOne(2, 2, 11, 11);
+		testOne(2, 3, 5, 12);
+		testOne(3, 3, 8, 8);
+		testOne(4, 4, 7, 7);
+		testOne(5, 5, 7, 11);
+		testOne(5, 7, 7, 11);
+		
 		for (int i = 0; i < 10; i++) {
 			testRandom(4);
 		}
