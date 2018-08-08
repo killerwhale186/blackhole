@@ -13,14 +13,16 @@ public class Polynomial {
 	public static void main(String[] args) {
 		Polynomial p1 = new Polynomial(new int[]{1, 2});
 		Polynomial p2 = new Polynomial(new int[]{1, -3});
-		Polynomial p3 = new Polynomial(new int[]{1, 1});
-		Polynomial p4 = new Polynomial(new int[]{1, -2});
+		Polynomial p3 = new Polynomial(new int[]{1, 6, 9});
+		Polynomial p4 = new Polynomial(new int[]{1, 0, -25});
 		Polynomial p5 = p1.multiply(p2).multiply(p3).multiply(p4);
 
 		List<Polynomial> factors = p5.factor();
+		System.out.print(p5 + "=");
 		for (Polynomial p : factors) {
-			System.out.println(p);
+			System.out.print("(" + p + ")");
 		}
+		System.out.println();
 	}
 
 	public Polynomial(int[] coefficients) {
@@ -85,12 +87,16 @@ public class Polynomial {
 			return new Polynomial[]{ZERO, p};
 		}
 		int[] q = new int[degreeDiff + 1];
+		for (int i = 0; i < degreeDiff + 1; i++) {
+			q[i] = 0;
+		}
 		Polynomial temp = this;
-		for (int k = 0; k < q.length; k++) {
+		while (true) {
 			int degree = temp.getDegree() - p.getDegree();
 			if (degree < 0) {
 				break;
 			}
+			int k = degreeDiff - degree;
 			q[k] = temp.coefficients[0];
 			Polynomial mono = new Polynomial(q[k], degree);
 			temp = temp.subtract(p.multiply(mono));
