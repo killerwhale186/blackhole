@@ -61,6 +61,7 @@ public class MirrorGame {
 			}
 		}
 
+		cin.close();
 		System.out.println("You made " + shoots + " shots, " + correctguesses + " correct guesses and " + incorrectguesses + " incorrect guesses.");
 	}
 	
@@ -164,6 +165,8 @@ public class MirrorGame {
 		
 		System.out.print("\n");
 		moveNext(board, laserxpos, laserypos, direction);
+		
+		cin.close();
 	}
 
 	//figure out what's the new direction of the laser
@@ -272,6 +275,7 @@ public class MirrorGame {
 			//display(board);
 		}
 		
+		cin.close();
 		return found;
 	}
 }
