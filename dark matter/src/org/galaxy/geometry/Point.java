@@ -5,6 +5,17 @@ public class Point {
 	public double x;
 	public double y;
 	
+	public Point(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+
+	public double getDistance(Point p) {
+		return Math.sqrt((this.x - p.x)*(this.x - p.x)+(this.y - p.y)*(this.y - p.y));  
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -15,6 +26,11 @@ public class Point {
 		temp = Double.doubleToLongBits(y);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Point [x=" + x + ", y=" + y + "]";
 	}
 
 	@Override
@@ -33,7 +49,4 @@ public class Point {
 		return true;
 	}
 
-	public double getDistance(Point p) {
-		return Math.sqrt((this.x - p.x)*(this.x - p.x)+(this.y - p.y)*(this.y - p.y));  
-	}
 }

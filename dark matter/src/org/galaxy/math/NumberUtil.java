@@ -20,6 +20,34 @@ public class NumberUtil {
 		}
 	}
 
+	public static List<Integer> getFactors(int n) {
+		List<Integer> factors = new ArrayList<Integer>();
+		for (int i = 1; i <= n; i++) {
+			if (n % i == 0) {
+				factors.add(i);
+			}
+		}
+		return factors;
+	}
+	
+	public static int myPow(int b, int n) {
+		int result = 1;
+		for (int i = 0; i < n; i++) {
+			result *= b;
+		}
+		return result;
+	}
+	
+	public static boolean isPrime(int a) {
+		int upperBound = (int)Math.sqrt(a);
+		for (int i = 2; i <= upperBound; i++) {
+			if (a % i == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public static List<String> pythagoreanSolutions(Integer max, Integer p) {
 		List<String> res = new ArrayList<String>();
 		for (Integer a = 1; a <= max; a++) {
@@ -34,23 +62,6 @@ public class NumberUtil {
 			}
 		}
 		return res;
-	}
-
-	private static Long pow(Integer base, Integer exp) {
-		Long ret = 1L;
-		for (Integer i = 1; i <= exp; i++) {
-			ret *= base;
-		}
-		return ret;
-	}
-
-	private static boolean hasFactor(Integer a, Integer b, Integer c) {
-		for (Integer i = 2; i <= a; i++) {
-			if (a % i == 0 && b % b == 0 && c % i == 0) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public static int getGCD(int a, int b) {
@@ -83,4 +94,22 @@ public class NumberUtil {
 		}
 	}
 	
+
+	private static Long pow(Integer base, Integer exp) {
+		Long ret = 1L;
+		for (Integer i = 1; i <= exp; i++) {
+			ret *= base;
+		}
+		return ret;
+	}
+
+	private static boolean hasFactor(Integer a, Integer b, Integer c) {
+		for (Integer i = 2; i <= a; i++) {
+			if (a % i == 0 && b % b == 0 && c % i == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

@@ -1,5 +1,8 @@
 package org.galaxy.math;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Polynomial {
 	
 	public static final Polynomial NEGATIVE_ONE = new Polynomial(new int[]{-1});
@@ -8,24 +11,18 @@ public class Polynomial {
 	private int[] coefficients;
 
 	public static void main(String[] args) {
-		int[] d1 = {1, 0, 0, 0, 0, 2};
-		int[] d2 = {1, 0, 1};
-		Polynomial p1 = new Polynomial(d1);
-		Polynomial p2 = new Polynomial(d2);
-		Polynomial p3 = p1.divide(p2);
-		System.out.println(p3.toString());
-	}
-	
-	private void removeLeadingZero() {
-		while (coefficients.length > 1 && coefficients[0] == 0) {
-			int[] newcoef = new int[coefficients.length-1];
-			for (int i = 0; i < newcoef.length; i++) {
-				newcoef[i] = coefficients[i+1];
-			}
-			coefficients = newcoef;
+		Polynomial p1 = new Polynomial(new int[]{1, 2});
+		Polynomial p2 = new Polynomial(new int[]{1, -3});
+		Polynomial p3 = new Polynomial(new int[]{1, 1});
+		Polynomial p4 = new Polynomial(new int[]{1, -2});
+		Polynomial p5 = p1.multiply(p2).multiply(p3).multiply(p4);
+
+		List<Polynomial> factors = p5.factor();
+		for (Polynomial p : factors) {
+			System.out.println(p);
 		}
 	}
-	
+
 	public Polynomial(int[] coefficients) {
 		this.coefficients = coefficients;
 		removeLeadingZero();
@@ -40,6 +37,9 @@ public class Polynomial {
 		}
 	}
 
+	public int getDegree() {
+		return (coefficients.length - 1);
+	}
 	
 	public Polynomial multiply(Polynomial p) {
 		int[] d = new int[this.coefficients.length + p.coefficients.length - 1];
@@ -55,10 +55,7 @@ public class Polynomial {
 		
 		return new Polynomial(d);
 	}
-	
-	public int getDegree() {
-		return (coefficients.length - 1);
-	}
+
 	
 	public Polynomial add(Polynomial p) {
 		int max = Math.max(this.getDegree(), p.getDegree());
@@ -81,9 +78,13 @@ public class Polynomial {
 		return this.add(p.multiply(NEGATIVE_ONE));
 	}
 	
-	//assume p has leading coefficient = 1
-	public Polynomial divide(Polynomial p) {
-		int[] q = new int[this.getDegree() - p.getDegree() + 1];
+	//assume p has leading coefficient = 1, returns the quotient and remainder
+	public Polynomial[] divide(Polynomial p) {
+		int degreeDiff = this.getDegree() - p.getDegree();
+		if (degreeDiff < 0) {
+			return new Polynomial[]{ZERO, p};
+		}
+		int[] q = new int[degreeDiff + 1];
 		Polynomial temp = this;
 		for (int k = 0; k < q.length; k++) {
 			int degree = temp.getDegree() - p.getDegree();
@@ -95,17 +96,53 @@ public class Polynomial {
 			temp = temp.subtract(p.multiply(mono));
 		}
 		
-		System.out.println("remainder: " + temp);
-		return new Polynomial(q);
+		return new Polynomial[]{new Polynomial(q), temp};
 	}
 	
-	public Polynomial power(int n) {
+	public Polynomial pow(int n) {
 		int[] a = {1};
 		Polynomial p = new Polynomial(a);
 		for (int i = 0; i < n; i++) {
 			p = p.multiply(this);
 		}
 		return p;
+	}
+	
+	public int evaluate(int x) {
+		int total = 0;
+		int degree = this.getDegree();
+		for (int i = 0; i < this.coefficients.length; i++) {
+			total += this.coefficients[i] * NumberUtil.myPow(x, degree - i);
+		}
+		return total;
+	}
+	
+	public List<Polynomial> factor() {
+		List<Polynomial> factors = new ArrayList<Polynomial>();
+		Polynomial temp = this;
+		while (true) {
+			List<Integer> coefFactors = NumberUtil.getFactors(Math.abs(temp.coefficients[temp.getDegree()]));
+			Polynomial p = null;
+			for (int k : coefFactors) {
+				if (temp.evaluate(k) == 0) {
+					p = new Polynomial(new int[]{1, (-1)*k});
+					factors.add(p);
+					temp = temp.divide(p)[0];
+					break;
+				}
+				if (temp.evaluate((-1)*k) == 0) {
+					p = new Polynomial(new int[]{1, k});
+					factors.add(p);
+					temp = temp.divide(p)[0];
+					break;
+				}
+			}
+			if (p == null || temp.getDegree() == 1) {
+				break;
+			}
+		}
+		factors.add(temp);
+		return factors;
 	}
 	
 	@Override
@@ -117,7 +154,7 @@ public class Polynomial {
 					buf.append("+");
 				}
 			}
-			if (this.coefficients[i] != 0) {
+			if (this.coefficients[i] != 0 || this.getDegree() == 0) {
 				int exp = (this.coefficients.length - 1 - i);
 				if (this.coefficients[i] != 1 || exp == 0) {
 					buf.append(this.coefficients[i]);
@@ -132,5 +169,15 @@ public class Polynomial {
 		return buf.toString();
 	}
 	
-
+	
+	private void removeLeadingZero() {
+		while (coefficients.length > 1 && coefficients[0] == 0) {
+			int[] newcoef = new int[coefficients.length-1];
+			for (int i = 0; i < newcoef.length; i++) {
+				newcoef[i] = coefficients[i+1];
+			}
+			coefficients = newcoef;
+		}
+	}
+	
 }
