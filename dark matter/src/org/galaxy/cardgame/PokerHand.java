@@ -14,7 +14,7 @@ public class PokerHand implements Comparable<PokerHand> {
 	
 	private List<Card> cards; //five cards
 	private List<Integer> subRank; //this list of values is used to determine rank if two hands have same type
-	private HandRank handRank;
+	private PokerHandType handType;
 	
 	public static PokerHand getBestHand(List<Card> hole, List<Card> tableCards) {
 		PokerHand hand = null;
@@ -46,8 +46,8 @@ public class PokerHand implements Comparable<PokerHand> {
 		identifyHandRank();
 	}
 	
-	public HandRank getHandRank() {
-		return this.handRank;
+	public PokerHandType getHandRank() {
+		return this.handType;
 	}
 	
 	public void identifyHandRank() {
@@ -72,31 +72,31 @@ public class PokerHand implements Comparable<PokerHand> {
 		Collections.sort(this.subRank);
 		
 		if (quadruples == 1) {
-			this.handRank = HandRank.FOUR_OF_A_KIND;
+			this.handType = PokerHandType.FOUR_OF_A_KIND;
 		} else if (triples == 1) {
 			if (pairs == 1) {
-				this.handRank = HandRank.FULL_HOUSE;
+				this.handType = PokerHandType.FULL_HOUSE;
 			} else {
-				this.handRank = HandRank.THREE_OF_A_KIND;
+				this.handType = PokerHandType.THREE_OF_A_KIND;
 			}
 		} else if (pairs == 2) {
-			this.handRank = HandRank.TWO_PAIRS;
+			this.handType = PokerHandType.TWO_PAIRS;
 		} else if (pairs == 1) {
-			this.handRank = HandRank.PAIR;
+			this.handType = PokerHandType.PAIR;
 		} else if (isFlush) {
 			if (isStraight) {
 				if (this.cards.get(0).getRank() == 14) {
-					this.handRank = HandRank.ROYAL_FLUSH;
+					this.handType = PokerHandType.ROYAL_FLUSH;
 				} else {
-					this.handRank = HandRank.STRAIGHT_FLUSH;
+					this.handType = PokerHandType.STRAIGHT_FLUSH;
 				}
 			} else {
-				this.handRank = HandRank.FLUSH;
+				this.handType = PokerHandType.FLUSH;
 			}
 		} else if (isStraight) {
-			this.handRank = HandRank.STRAIGHT;
+			this.handType = PokerHandType.STRAIGHT;
 		} else {
-			this.handRank = HandRank.HIGH_CARD;
+			this.handType = PokerHandType.HIGH_CARD;
 		}
 	}
 	
