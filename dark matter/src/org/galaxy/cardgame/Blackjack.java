@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Blackjack {
 
+	public static final int DEALER_LIMIT = 17;
+	
 	public static void main(String[] args) {
 		simulate1();
 	}
@@ -59,7 +61,7 @@ public class Blackjack {
 		}
 		
 		int dealerTotal = getTotal(dealerCards);
-		while (dealerTotal < 17) {
+		while (dealerTotal < DEALER_LIMIT) {
 			dealerCards.add(deck.removeTop());
 			dealerTotal = getTotal(dealerCards);
 		}
