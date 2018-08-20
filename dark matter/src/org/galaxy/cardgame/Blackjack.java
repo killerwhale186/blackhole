@@ -8,18 +8,73 @@ import java.util.List;
 public class Blackjack {
 
 	public static void main(String[] args) {
-		
-		Deck deck = new Deck(true);
-		deck.shuffle();
+		simulate1();
+	}
 	
+	//seems like 12,13,14 are best 
+	private static void simulate1() {
 		try {
-			playOneRound(deck);
+			for (int k = 10; k <= 18; k++) {
+				int total = 0;
+				int wins = 0;
+				int loses = 0;
+				for (int i = 0; i < 30000; i++) {
+					int result = playOneAuto(k);
+					if (result > 0) {
+						wins++;
+					} else if (result < 0) {
+						loses++;
+					}
+				}
+				total = wins + loses;
+				double pct = 1.0 * wins / total;
+				System.out.println(k + " win percent: " + pct);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private static void playOneRound(Deck deck) throws Exception {
+	private static int playOneAuto(int stop) {
+		
+		Deck deck = new Deck(true);
+		deck.shuffle();
+	
+		List<Card> dealerCards = new ArrayList<Card>();
+		List<Card> playerCards = new ArrayList<Card>();
+		
+		dealerCards.add(deck.removeTop());
+		dealerCards.add(deck.removeTop());
+		
+		playerCards.add(deck.removeTop());
+		playerCards.add(deck.removeTop());
+		
+		int playerTotal = getTotal(playerCards);
+		while (playerTotal < stop) {
+			playerCards.add(deck.removeTop());
+			playerTotal = getTotal(playerCards);
+		}
+		if (playerTotal > 21) {
+			return -1;
+		}
+		
+		int dealerTotal = getTotal(dealerCards);
+		while (dealerTotal < 17) {
+			dealerCards.add(deck.removeTop());
+			dealerTotal = getTotal(dealerCards);
+		}
+		if (dealerTotal > 21) {
+			return 1;
+		}
+		
+		return playerTotal - dealerTotal;
+	}
+	
+	private static void playOneRound() throws Exception {
+		
+		Deck deck = new Deck(true);
+		deck.shuffle();
+	
 		List<Card> dealerCards = new ArrayList<Card>();
 		List<Card> playerCards = new ArrayList<Card>();
 		

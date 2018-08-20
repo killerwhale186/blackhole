@@ -1,5 +1,9 @@
 package org.galaxy.game;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Square {
 
 	public final static char EMPTY_SPACE = ' ';
@@ -19,6 +23,50 @@ public class Square {
 		s.setValue(2, 1, '8');
 		s.setValue(2, 2, EMPTY_SPACE);
 		return s;
+	}
+	
+	public List<int[]> getValidMoves(int[] empty) {
+		int ex = empty[0];
+		int ey = empty[1];
+		List<int[]> validMoves = new ArrayList<int[]>();
+		if (ex - 1 >= 0) {
+			validMoves.add(new int[]{ex - 1, ey});
+		}
+		if (ex + 1 <= 2) {
+			validMoves.add(new int[]{ex + 1, ey});
+		}
+		if (ey - 1 >= 0) {
+			validMoves.add(new int[]{ex, ey - 1});
+		}
+		if (ey + 1 <= 2) {
+			validMoves.add(new int[]{ex, ey + 1});
+		}
+		return validMoves;
+	}
+	
+	public void shuffle(int cnt) {
+		for (int i = 0; i < cnt; i++) {
+			int[] empty = findEmpty();
+			List<int[]> validMoves = getValidMoves(empty);
+			double r = Math.random();
+			int index = ((int)(r * 999)) % (validMoves.size());
+			int[] from = validMoves.get(index);
+			this.board[empty[0]][empty[1]] = this.board[from[0]][from[1]];
+			this.board[from[0]][from[1]] = EMPTY_SPACE;
+			//System.out.println(this.toString());
+		}
+	}
+	
+	public int[] findEmpty() {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (this.board[i][j] == EMPTY_SPACE) {
+					return new int[]{i, j};
+				}
+			}
+		}
+		//should never get here
+		return null;
 	}
 	
 	public Square getParent() {
@@ -62,4 +110,28 @@ public class Square {
 		}
 		return buf.toString();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(board);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Square other = (Square) obj;
+		if (!Arrays.deepEquals(board, other.board))
+			return false;
+		return true;
+	}
+	
+	
 }

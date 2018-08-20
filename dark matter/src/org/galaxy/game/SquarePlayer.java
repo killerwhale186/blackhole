@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 
 public class SquarePlayer {
 	
@@ -14,12 +13,42 @@ public class SquarePlayer {
 	
 	public static void main(String[] args) {
 		SquarePlayer sqr = new SquarePlayer();
-		sqr.run();
+		sqr.findAll();
+		//sqr.solve();
 	}
 	
-	private void run() {
+	
+	//finds all possible states
+	private void findAll() {
+		Square s = Square.createStandard();
 		
-		Square target = null;
+		allSquares.add(s.toString());
+		currSquares.add(s);
+		
+		int runCnt = 1;
+		do {
+			for (Square itr : currSquares) {
+				int[] empty = itr.findEmpty();
+				for (int[] f : itr.getValidMoves(empty)) {
+					move(itr, f[0], f[1], empty[0], empty[1]);
+				}
+			}
+
+			if (nextSquares.isEmpty()) {
+				break;
+			}
+			currSquares = nextSquares;
+			nextSquares = new ArrayList<Square>();
+			System.out.println(runCnt + "=>" + allSquares.size());
+			if (runCnt == 31) {
+				System.out.println(currSquares.get(0));
+				System.out.println(currSquares.get(1));
+			}
+			runCnt++;
+		} while (true);
+	}
+	
+	private Square solve(Square target) {
 
 		Square s = Square.createStandard();
 		
@@ -29,41 +58,13 @@ public class SquarePlayer {
 		int runCnt = 1;
 		do {
 			for (Square itr : currSquares) {
-				if (itr.getValue(0, 0) == Square.EMPTY_SPACE) {
-					move(itr, 0, 1, 0, 0);
-					move(itr, 1, 0, 0, 0);
-				} else if (itr.getValue(0, 1) == Square.EMPTY_SPACE) {
-					move(itr, 0, 0, 0, 1);
-					move(itr, 1, 1, 0, 1);
-					move(itr, 0, 2, 0, 1);
-				} else if (itr.getValue(0, 2) == Square.EMPTY_SPACE) {
-					move(itr, 0, 1, 0, 2);
-					move(itr, 1, 2, 0, 2);
-				} else if (itr.getValue(1, 0) == Square.EMPTY_SPACE) {
-					move(itr, 0, 0, 1, 0);
-					move(itr, 1, 1, 1, 0);
-					move(itr, 2, 0, 1, 0);
-				} else if (itr.getValue(1 ,1) == Square.EMPTY_SPACE) {
-					move(itr, 0, 1, 1, 1);
-					move(itr, 1, 0, 1, 1);
-					move(itr, 1, 2, 1, 1);
-					move(itr, 2, 1, 1, 1);
-				} else if (itr.getValue(1, 2) == Square.EMPTY_SPACE) {
-					move(itr, 0, 2, 1, 2);
-					move(itr, 1, 1, 1, 2);
-					move(itr, 2, 2, 1, 2);
-				} else if (itr.getValue(2, 0) == Square.EMPTY_SPACE) {
-					move(itr, 1, 0, 2, 0);
-					move(itr, 2, 1, 2, 0);
-				} else if (itr.getValue(2, 1) == Square.EMPTY_SPACE) {
-					move(itr, 1, 1, 2, 1);
-					move(itr, 2, 0, 2, 1);
-					move(itr, 2, 2, 2, 1);
-				} else if (itr.getValue(2, 2) == Square.EMPTY_SPACE) {
-					move(itr, 1, 2, 2, 2);
-					move(itr, 2, 1, 2, 2);
-				} 
-				target = itr;
+				int[] empty = itr.findEmpty();
+				for (int[] f : itr.getValidMoves(empty)) {
+					Square temp = move(itr, f[0], f[1], empty[0], empty[1]);
+					if (temp != null && temp.equals(target)) {
+						return temp;
+					}
+				}
 			}
 
 			if (nextSquares.isEmpty()) {
@@ -75,17 +76,25 @@ public class SquarePlayer {
 			runCnt++;
 		} while (true);
 		
-		Stack<Square> stack = new Stack<Square>();
-		while (target != null) {
-			stack.push(target);
-			target = target.getParent();
-		}
-		while (stack.isEmpty() == false) {
-			System.out.println(stack.pop().toString());
+		return null;
+	}
+	
+	private void solve() {
+		Square target = Square.createStandard();
+		target.shuffle(100);
+		System.out.println("Target: ");
+		System.out.println(target.toString());
+		
+		Square solution = solve(target);
+		
+		System.out.println("Solution: ");
+		while (solution != null) {
+			System.out.println(solution.toString());
+			solution = solution.getParent();
 		}
 	}
 	
-	private void move(Square itr, int fi, int fj, int ti, int tj) {
+	private Square move(Square itr, int fi, int fj, int ti, int tj) {
 		Square s1 = itr.clone();
 		s1.setValue(fi, fj, Square.EMPTY_SPACE);
 		s1.setValue(ti, tj, itr.getValue(fi, fj));
@@ -93,6 +102,8 @@ public class SquarePlayer {
 			s1.setParent(itr);
 			nextSquares.add(s1);
 			allSquares.add(s1.toString());
+			return s1;
 		}
+		return null;
 	}
 }
