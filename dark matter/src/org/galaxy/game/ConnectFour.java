@@ -17,11 +17,19 @@ public class ConnectFour {
 	public static void main(String[] args) {
 		ConnectFour cf = new ConnectFour();
 		
-		for (int k = 0; k < 8; k++) {
+		for (int k = 0; k < 21; k++) {
 			int[] pos1 = cf.play(P1);
 			cf.printBoard();
+			if (cf.checkWin(pos1[0], pos1[1], P1)) {
+				System.out.println("Player 1 Win.");
+				break;
+			}
 			int[] pos2 = cf.play(P2);
 			cf.printBoard();
+			if (cf.checkWin(pos2[0], pos2[1], P2)) {
+				System.out.println("Player 2 Win.");
+				break;
+			}
 		}
 	}
 	
@@ -37,7 +45,47 @@ public class ConnectFour {
 	private boolean checkWin(int row, int col, char c) {
 		if (checkVertical(row, col, c)) {return true;}
 		if (checkHorizontal(row, col, c)) {return true;}
+		if (checkDiagonalAsc(row, col, c)) {return true;}
+		if (checkDiagonalDsc(row, col, c)) {return true;}
 		return false;
+	}
+	
+	private boolean checkDiagonalAsc(int row, int col, char c) {
+		int cnt = 1;
+		for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+			if (board[i][j] == c) {
+				cnt++;
+			} else {
+				break;
+			}
+		}
+		for (int i = row + 1, j = col + 1; i < MAX_ROW && j < MAX_COLUMN; i++, j++) {
+			if (board[i][j] == c) {
+				cnt++;
+			} else {
+				break;
+			}
+		}
+		return cnt >= 4;
+	}
+	
+	private boolean checkDiagonalDsc(int row, int col, char c) {
+		int cnt = 1;
+		for (int i = row - 1, j = col + 1; i >= 0 && j < MAX_COLUMN; i--, j++) {
+			if (board[i][j] == c) {
+				cnt++;
+			} else {
+				break;
+			}
+		}
+		for (int i = row + 1, j = col - 1; i < MAX_ROW && j >= 0; i++, j--) {
+			if (board[i][j] == c) {
+				cnt++;
+			} else {
+				break;
+			}
+		}
+		return cnt >= 4;
 	}
 	
 	private boolean checkHorizontal(int row, int col, char c) {
@@ -83,7 +131,7 @@ public class ConnectFour {
 	
 	private int getAvailableColumn() {
 		List<Integer> availColumns = getAvailableColumns();
-		int index = ((int)(Math.random() * 9997.0)) % availColumns.size();
+		int index = ((int)(Math.random() * 9973.0)) % availColumns.size();
 		return availColumns.get(index);
 	}
 	
@@ -103,12 +151,11 @@ public class ConnectFour {
 			for (int j = 0; j < MAX_COLUMN; j++) {
 				System.out.print(" ");
 				System.out.print(board[i][j]);
-				System.out.print(" ");
 			}
 			System.out.println();
 		}
 		for (int j = 0; j < MAX_COLUMN; j++) {
-			System.out.print("---");
+			System.out.print("--");
 		}
 		System.out.println();
 	}

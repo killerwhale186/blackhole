@@ -13,15 +13,52 @@ public class Blackjack {
 		simulate1();
 	}
 	
-	//seems like 12,13,14 are best 
+	//seems like 13 = 0.477
+	// 2 => 12
+	// 3 => 12
+	// 4 => 12
+	// 5 => 12
+	// 6 => 12
+	// 7 => 14
+	// 8 => 17
+	// 9 => 14
+	// 10 => 15
+	// 1 => 13
+	// with above = 0.483
+	private static int getStop(int dealer1) {
+		switch (dealer1) {
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+			return 12;
+		case 7:
+			return 14;
+		case 8:
+			return 17;
+		case 9:
+			return 14;
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+			return 15;
+		case 1:
+			return 13;
+		default:
+			return 13;
+		}
+	}
+	
 	private static void simulate1() {
 		try {
-			for (int k = 10; k <= 18; k++) {
+			//for (int k = 11; k <= 18; k++) {
 				int total = 0;
 				int wins = 0;
 				int loses = 0;
-				for (int i = 0; i < 30000; i++) {
-					int result = playOneAuto(k);
+				for (int i = 0; i < 50000; i++) {
+					int result = playOneAuto(1);
 					if (result > 0) {
 						wins++;
 					} else if (result < 0) {
@@ -30,8 +67,8 @@ public class Blackjack {
 				}
 				total = wins + loses;
 				double pct = 1.0 * wins / total;
-				System.out.println(k + " win percent: " + pct);
-			}
+				System.out.println(" win percent: " + pct);
+			//}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,7 +83,10 @@ public class Blackjack {
 		List<Card> playerCards = new ArrayList<Card>();
 		
 		dealerCards.add(deck.removeTop());
+		//dealerCards.add(deck.remove(8));
 		dealerCards.add(deck.removeTop());
+		
+		stop = getStop(dealerCards.get(0).getRank());
 		
 		playerCards.add(deck.removeTop());
 		playerCards.add(deck.removeTop());
@@ -66,6 +106,14 @@ public class Blackjack {
 			dealerTotal = getTotal(dealerCards);
 		}
 		if (dealerTotal > 21) {
+			return 1;
+		}
+		
+		if (isBlackjack(dealerCards) && !isBlackjack(playerCards)) {
+			return -1;
+		}
+		
+		if (!isBlackjack(dealerCards) && isBlackjack(playerCards)) {
 			return 1;
 		}
 		
@@ -131,6 +179,10 @@ public class Blackjack {
 				System.out.println("Tie.");
 			}
 		}
+	}
+	
+	private static boolean isBlackjack(List<Card> cards) {
+		return cards.size() == 2 && getTotal(cards) == 21;
 	}
 	
 	private static int getTotal(List<Card> cards) {

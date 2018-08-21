@@ -1,6 +1,7 @@
 package org.galaxy.cardgame;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Deck {
@@ -23,6 +24,19 @@ public class Deck {
 	
 	public boolean hasCards() {
 		return this.cards.size() > 0;
+	}
+	
+	public Card remove(int n) {
+		Card c = null;
+		Iterator<Card> itr = cards.iterator();
+		while (itr.hasNext()) {
+			c = itr.next();
+			if (c.getRank() == n) {
+				itr.remove();
+				break;
+			}
+		}
+		return c;
 	}
 	
 	public Card removeTop() {

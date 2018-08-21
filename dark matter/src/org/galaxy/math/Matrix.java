@@ -2,12 +2,12 @@ package org.galaxy.math;
 
 public class Matrix {
 	
-	private double[][] data;
+	private int[][] data;
 	private int rows;
 	private int columns;
 	
 	public Matrix(int rows, int columns) {
-		this.data = new double[rows][columns];
+		this.data = new int[rows][columns];
 		this.rows = rows;
 		this.columns = columns;
 		for (int i = 0; i < rows; i++) {
@@ -17,11 +17,11 @@ public class Matrix {
 		}
 	}
 	
-	public double getValue(int row, int column) {
+	public int getValue(int row, int column) {
 		return this.data[row][column];
 	}
 	
-	public void setValue(int row, int column, double val) {
+	public void setValue(int row, int column, int val) {
 		this.data[row][column] = val;
 	}
 	
@@ -41,7 +41,7 @@ public class Matrix {
 		Matrix newMatrix = new Matrix(this.rows, m.columns);
 		for (int i = 0; i < this.rows; i++) {
 			for (int j = 0; j < m.columns; j++) {
-				double val = 0;
+				int val = 0;
 				for (int k = 0; k < this.rows; k++) {
 					val += this.data[i][k] * m.data[k][j];
 				}
@@ -51,11 +51,11 @@ public class Matrix {
 		return newMatrix;
 	}
 	
-	public double getDeterminant() {
+	public int getDeterminant() {
 		if (this.rows == 1 && this.columns == 1) {
 			return this.data[0][0];
 		}
-		double det = 0;
+		int det = 0;
 		int sign = 1;
 		for (int j = 0; j < this.columns; j++) {
 			Matrix sub = this.getSubMatrix(0, j);
@@ -63,6 +63,28 @@ public class Matrix {
 			sign *= (-1);
 		}
 		return det;
+	}
+	
+	public int getTrace() {
+		int trace = 0;
+		for (int i = 0; i < this.rows; i++) {
+			trace += this.getValue(i, i);
+		}
+		return trace;
+	}
+	
+	public boolean isSymmetrical() {
+		if (this.rows != this.columns) {
+			return false;
+		}
+		for (int i = 0; i < this.rows; i++) {
+			for (int j = i + 1; j < this.columns; j++) {
+				if (this.getValue(i, j) != this.getValue(j,  i)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public Matrix getSubMatrix(int excludeRow, int excludeColumn) {
