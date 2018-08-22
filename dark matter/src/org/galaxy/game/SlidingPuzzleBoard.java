@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Square {
+public class SlidingPuzzleBoard {
 
 	public final static char EMPTY_SPACE = ' ';
 	
 	private char[][] board;
-	private Square parent = null;
+	private SlidingPuzzleBoard parent = null;
 
-	public static Square createStandard() {
-		Square s = new Square();
+	public static SlidingPuzzleBoard createStandard() {
+		SlidingPuzzleBoard s = new SlidingPuzzleBoard();
 		s.setValue(0, 0, '1');
 		s.setValue(0, 1, '2');
 		s.setValue(0, 2, '3');
@@ -69,16 +69,16 @@ public class Square {
 		return null;
 	}
 	
-	public Square getParent() {
+	public SlidingPuzzleBoard getParent() {
 		return parent;
 	}
 
-	public void setParent(Square parent) {
+	public void setParent(SlidingPuzzleBoard parent) {
 		this.parent = parent;
 	}
 
-	public Square clone() {
-		Square s = new Square();
+	public SlidingPuzzleBoard clone() {
+		SlidingPuzzleBoard s = new SlidingPuzzleBoard();
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				s.board[i][j] = this.board[i][j];
@@ -87,7 +87,7 @@ public class Square {
 		return s;
 	}
 
-	public Square() {
+	public SlidingPuzzleBoard() {
 		board = new char[3][3];
 	}
 
@@ -127,7 +127,7 @@ public class Square {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Square other = (Square) obj;
+		SlidingPuzzleBoard other = (SlidingPuzzleBoard) obj;
 		if (!Arrays.deepEquals(board, other.board))
 			return false;
 		return true;
