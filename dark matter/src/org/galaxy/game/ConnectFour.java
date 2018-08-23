@@ -18,13 +18,13 @@ public class ConnectFour {
 		ConnectFour cf = new ConnectFour();
 		
 		for (int k = 0; k < 21; k++) {
-			int[] pos1 = cf.play(P1);
+			int[] pos1 = cf.playRandom(P1);
 			cf.printBoard();
 			if (cf.checkWin(pos1[0], pos1[1], P1)) {
 				System.out.println("Player 1 Win.");
 				break;
 			}
-			int[] pos2 = cf.play(P2);
+			int[] pos2 = cf.playRandom(P2);
 			cf.printBoard();
 			if (cf.checkWin(pos2[0], pos2[1], P2)) {
 				System.out.println("Player 2 Win.");
@@ -113,10 +113,15 @@ public class ConnectFour {
 		return (row >= 3 && board[row - 3][col] == c && board[row - 2][col] == c && board[row - 1][col] == c);
 	}
 	
-	private int[] play(char c) {
-		int col = getAvailableColumn();
+	private int[] playRandom(char c) {
+		int[] pos = getRandomMove();
+		board[pos[0]][pos[1]] = c;
+		return pos;
+	}
+	
+	private int[] getRandomMove() {
+		int col = getRandomColumn();
 		int row = getAvailableRow(col);
-		board[row][col] = c;
 		return new int[]{row, col};
 	}
 	
@@ -129,7 +134,7 @@ public class ConnectFour {
 		return -1;
 	}
 	
-	private int getAvailableColumn() {
+	private int getRandomColumn() {
 		List<Integer> availColumns = getAvailableColumns();
 		int index = ((int)(Math.random() * 9973.0)) % availColumns.size();
 		return availColumns.get(index);
