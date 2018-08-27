@@ -6,72 +6,46 @@ import java.util.List;
 import java.util.Set;
 
 public class SlidingPuzzle {
-	
-	private Set<String> allStates = new HashSet<String>();
-	private List<SlidingPuzzleBoard> currSquares = new ArrayList<SlidingPuzzleBoard>();
-	private List<SlidingPuzzleBoard> nextSquares = new ArrayList<SlidingPuzzleBoard>();
-	
+
 	public static void main(String[] args) {
 		SlidingPuzzle slidingPuzzle = new SlidingPuzzle();
-		//slidingPuzzle.findAll();
-		slidingPuzzle.solve();
+		//slidingPuzzle.solve(null);
+		slidingPuzzle.solveOne();
 	}
 	
-	
-	//finds all possible states
-	private void findAll() {
-		SlidingPuzzleBoard s = SlidingPuzzleBoard.createStandard();
-		
-		allStates.add(s.toString());
-		currSquares.add(s);
-		
-		int runCnt = 1;
-		do {
-			for (SlidingPuzzleBoard itr : currSquares) {
-				int[] empty = itr.findEmpty();
-				for (int[] f : itr.getValidMoves(empty)) {
-					move(itr, f[0], f[1], empty[0], empty[1]);
-				}
-			}
-
-			if (nextSquares.isEmpty()) {
-				break;
-			}
-			currSquares = nextSquares;
-			nextSquares = new ArrayList<SlidingPuzzleBoard>();
-			System.out.println(runCnt + "=>" + allStates.size());
-			if (runCnt == 31) {
-				System.out.println(currSquares.get(0));
-				System.out.println(currSquares.get(1));
-			}
-			runCnt++;
-		} while (true);
-	}
 	
 	private SlidingPuzzleBoard solve(SlidingPuzzleBoard target) {
-
+		
+		Set<String> allStates = new HashSet<String>();
+		List<SlidingPuzzleBoard> currBoards = new ArrayList<SlidingPuzzleBoard>();
+		List<SlidingPuzzleBoard> nextBoards = new ArrayList<SlidingPuzzleBoard>();
+		
 		SlidingPuzzleBoard s = SlidingPuzzleBoard.createStandard();
 		
 		allStates.add(s.toString());
-		currSquares.add(s);
+		currBoards.add(s);
 		
 		int runCnt = 1;
 		do {
-			for (SlidingPuzzleBoard itr : currSquares) {
-				int[] empty = itr.findEmpty();
-				for (int[] f : itr.getValidMoves(empty)) {
-					SlidingPuzzleBoard temp = move(itr, f[0], f[1], empty[0], empty[1]);
-					if (temp != null && temp.equals(target)) {
-						return temp;
+			for (SlidingPuzzleBoard itr : currBoards) {
+				List<SlidingPuzzleBoard> next = itr.getNextBoards();
+				for (SlidingPuzzleBoard nitr: next) {
+					if (!allStates.contains(nitr.toString())) {
+						nitr.setParent(itr);
+						nextBoards.add(nitr);
+						allStates.add(nitr.toString());
+					}
+					if (target != null && nitr != null && nitr.equals(target)) {
+						return nitr;
 					}
 				}
 			}
 
-			if (nextSquares.isEmpty()) {
+			if (nextBoards.isEmpty()) {
 				break;
 			}
-			currSquares = nextSquares;
-			nextSquares = new ArrayList<SlidingPuzzleBoard>();
+			currBoards = nextBoards;
+			nextBoards = new ArrayList<SlidingPuzzleBoard>();
 			System.out.println(runCnt + "=>" + allStates.size());
 			runCnt++;
 		} while (true);
@@ -79,7 +53,7 @@ public class SlidingPuzzle {
 		return null;
 	}
 	
-	private void solve() {
+	private void solveOne() {
 		SlidingPuzzleBoard target = SlidingPuzzleBoard.createStandard();
 		target.shuffle(200);
 		System.out.println("Target: ");
@@ -93,17 +67,5 @@ public class SlidingPuzzle {
 			solution = solution.getParent();
 		}
 	}
-	
-	private SlidingPuzzleBoard move(SlidingPuzzleBoard itr, int fi, int fj, int ti, int tj) {
-		SlidingPuzzleBoard s1 = itr.clone();
-		s1.setValue(fi, fj, SlidingPuzzleBoard.EMPTY_SPACE);
-		s1.setValue(ti, tj, itr.getValue(fi, fj));
-		if (!allStates.contains(s1.toString())) {
-			s1.setParent(itr);
-			nextSquares.add(s1);
-			allStates.add(s1.toString());
-			return s1;
-		}
-		return null;
-	}
+
 }
