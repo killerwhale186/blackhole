@@ -26,9 +26,9 @@ public class SlidingPuzzleBoard {
 		return s;
 	}
 	
-	private void move(int fi, int fj, int ti, int tj) {
-		setValue(ti, tj, getValue(fi, fj));
-		setValue(fi, fj, EMPTY_SPACE);
+	private void move(int[] from, int[] to) {
+		setValue(to[0], to[1], getValue(from[0], from[1]));
+		setValue(from[0], from[1], EMPTY_SPACE);
 	}
 	
 	public List<SlidingPuzzleBoard> getNextBoards() {
@@ -36,7 +36,7 @@ public class SlidingPuzzleBoard {
 		int[] empty = findEmpty();
 		for (int[] itr : getValidMoves(empty)) {
 			SlidingPuzzleBoard newBoard = this.clone();
-			newBoard.move(itr[0], itr[1], empty[0], empty[1]);
+			newBoard.move(itr, empty);
 			ret.add(newBoard);
 		}
 		return ret;
@@ -67,7 +67,7 @@ public class SlidingPuzzleBoard {
 			List<int[]> validMoves = getValidMoves(empty);
 			int index = MathUtil.getRandom(validMoves.size());
 			int[] from = validMoves.get(index);
-			move(from[0], from[1], empty[0], empty[1]);
+			move(from, empty);
 			//System.out.println(this.toString());
 		}
 	}
