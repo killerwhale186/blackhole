@@ -3,6 +3,7 @@ package org.galaxy.game;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.galaxy.util.MathUtil;
 
 public class SlidingPuzzleBoard {
 
@@ -64,11 +65,9 @@ public class SlidingPuzzleBoard {
 		for (int i = 0; i < cnt; i++) {
 			int[] empty = findEmpty();
 			List<int[]> validMoves = getValidMoves(empty);
-			double r = Math.random();
-			int index = ((int)(r * 999)) % (validMoves.size());
+			int index = MathUtil.getRandom(validMoves.size());
 			int[] from = validMoves.get(index);
-			this.board[empty[0]][empty[1]] = this.board[from[0]][from[1]];
-			this.board[from[0]][from[1]] = EMPTY_SPACE;
+			move(from[0], from[1], empty[0], empty[1]);
 			//System.out.println(this.toString());
 		}
 	}
