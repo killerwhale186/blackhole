@@ -24,6 +24,10 @@ public class Fraction extends FractionExpression {
 		reduce();
 	}
 	
+	public int getSign() {
+		return numerator * denominater;
+	}
+	
 	public Fraction add(Fraction b) {
 		Fraction sum = new Fraction(this.numerator * b.denominater + this.denominater * b.numerator, this.denominater * b.denominater);
 		return sum;
